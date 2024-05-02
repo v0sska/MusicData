@@ -1,8 +1,12 @@
 package com.example.musicdata.interfaces;
 
 
+import com.example.musicdata.entities.Labels;
 import com.example.musicdata.entities.MusicGroups;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -20,5 +24,11 @@ public interface IMusicGroupsService {
     void uploadGroupsAndLabelsFromFile(MultipartFile fileToUpload);
 
     List<MusicGroups> listAll();
+
+     void generateReport(HttpServletResponse response, String genre);
+
+    List<MusicGroups> findByGenre(String genre);
+
+    Page<MusicGroups> listAllByPages(String genre, Pageable pageable);
 
 }

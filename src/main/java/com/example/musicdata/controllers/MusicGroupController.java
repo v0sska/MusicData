@@ -2,7 +2,13 @@ package com.example.musicdata.controllers;
 
 import com.example.musicdata.entities.MusicGroups;
 import com.example.musicdata.services.MusicGroupService;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -53,4 +59,21 @@ public class MusicGroupController {
 
     }
 
+    @PostMapping("/report")
+    public ResponseEntity<Void> downloadReport(HttpServletResponse response , @RequestParam(required = false) String genre) {
+        groupService.generateReport(response, genre);
+
+        HttpHeaders headers = new HttpHeaders();
+        return new ResponseEntity<>(headers, HttpStatus.OK);
+    }
+
+    @PostMapping("/list")
+    public Page<MusicGroups> getMusicGroups(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) String genre) {
+
+        Page<MusicGroups> musicGroupsPage = groupService.listAllByPages(genre, PageRequest.of(page, size));
+        return ResponseEntity.ok().body(musicGroupsPage).getBody();
+    }
 }

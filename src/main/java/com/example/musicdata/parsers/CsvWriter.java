@@ -26,7 +26,7 @@ public class CsvWriter {
 
             // Write CSV Content
             for (MusicGroups musicGroup : groupsToDownload) {
-                String[] data = {musicGroup.getName(), musicGroup.getGenre(), String.valueOf(musicGroup.getLabels())};
+                String[] data = {musicGroup.getName(), musicGroup.getGenre(), String.valueOf(musicGroup.getLabels().getId())};
                 writer.writeNext(data);
             }
             writer.flush();

@@ -3,13 +3,24 @@ package com.example.musicdata.services;
 
 import com.example.musicdata.entities.MusicGroups;
 import com.example.musicdata.interfaces.IMusicGroupsService;
+import com.example.musicdata.parsers.CsvWriter;
 import com.example.musicdata.parsers.JsonParser;
 import com.example.musicdata.pojos.MusicGroupsPojo;
 import com.example.musicdata.repositories.MusicGroupsRepository;
+import com.opencsv.CSVWriter;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -82,6 +93,54 @@ public class MusicGroupService implements IMusicGroupsService {
         return (List<MusicGroups>) groupsRepository.findAll();
     }
 
+    @Override
+    public void generateReport(HttpServletResponse response, String genre) {
+
+        List<MusicGroups> groups;
+        response.setContentType("text/csv");
+        response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=music_groups_report.csv");
+
+        if(genre != null){
+            response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=music_groups_report_by_genre.csv");
+            groups = findByGenre(genre);
+        }
+        else {
+             groups = listAll();
+        }
+
+        try (ServletOutputStream outputStream = response.getOutputStream();
+             OutputStreamWriter writer = new OutputStreamWriter(outputStream)) {
+
+            // Створення CsvWriter
+            CsvWriter csvWriter = new CsvWriter();
+
+            // Отримання даних для звіту
+            byte[] csvData = csvWriter.generateReport(groups);
+
+            // Запис даних у вихідний потік
+            outputStream.write(csvData);
+            outputStream.flush();
+
+        } catch (IOException e) {
+            throw new RuntimeException("Error generating CSV report", e);
+        }
+    }
+
+    @Override
+    public List<MusicGroups> findByGenre(String genre) {
+        return groupsRepository.findByGenre(genre);
+    }
+
+    @Override
+    public Page<MusicGroups> listAllByPages(String genre, Pageable pageable) {
+
+        if (genre != null) {
+            return groupsRepository.findByGenre(genre, pageable);
+        } else {
+            return groupsRepository.findAll(pageable);
+        }
+    }
+
 
     private MusicGroups pojoGroupToEntity(MusicGroupsPojo musicGroupsPojo){
 
@@ -93,5 +152,7 @@ public class MusicGroupService implements IMusicGroupsService {
 
         return convertedGroups;
     }
+
+
 
 }
