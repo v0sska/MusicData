@@ -1,7 +1,6 @@
 package com.example.musicdata.interfaces;
 
 
-import com.example.musicdata.entities.Labels;
 import com.example.musicdata.entities.MusicGroups;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.data.domain.Pageable;

@@ -19,8 +19,6 @@ public interface MusicGroupsRepository extends CrudRepository<MusicGroups, Long>
 
     List<MusicGroups> findByGenre(String genre);
 
-    List<MusicGroups> findByLabels(Labels labels);
-
     Page<MusicGroups> findByGenre(String genre, Pageable pageable);
 
     Page<MusicGroups> findAll(Pageable pageable);

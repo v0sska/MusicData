@@ -2,6 +2,7 @@ package com.example.musicdata.parsers;
 
 
 import com.example.musicdata.entities.Labels;
+import com.example.musicdata.interfaces.IJsonParser;
 import com.example.musicdata.json_objects.GroupsAndLabels;
 import com.example.musicdata.pojos.LabelsPojo;
 import com.example.musicdata.pojos.MusicGroupsPojo;
@@ -19,45 +20,47 @@ import java.util.stream.Collectors;
 
 @Component
 @AllArgsConstructor
-public class JsonParser {
+public class JsonParser implements IJsonParser {
 
     private LabelsRepository labelsRepository;
 
     private final ObjectMapper mapper = new ObjectMapper();
 
+    @Override
     public List<MusicGroupsPojo> readJsonFileByField(MultipartFile file) {
 
         List<MusicGroupsPojo> musicGroupsPojos = new ArrayList<>();
 
 
         try (com.fasterxml.jackson.core.JsonParser jsonParser = mapper.getFactory().createParser(file.getInputStream())) {
-            // Переміщення до початку масиву
+
             while (jsonParser.nextToken() != JsonToken.START_ARRAY) {
-                // Порожній цикл для переміщення парсера до початку масиву
+
             }
 
-            // Зчитування об'єктів по одному
-            // Зчитування об'єктів по одному
             while (jsonParser.nextToken() != JsonToken.END_ARRAY) {
+
                 GroupsAndLabels jsonEntity = jsonParser.readValueAs(GroupsAndLabels.class);
 
                 LabelsPojo labelsPojo = new LabelsPojo();
-                MusicGroupsPojo musicGroupsPojo = new MusicGroupsPojo(); // Створення нового екземпляра тут
+
+                MusicGroupsPojo musicGroupsPojo = new MusicGroupsPojo();
 
                 labelsPojo.setName(jsonEntity.getLabel());
                 labelsPojo.setFoundedYear(jsonEntity.getFoundedYear());
+
                 musicGroupsPojo.setName(jsonEntity.getGroup());
                 musicGroupsPojo.setGenre(jsonEntity.getGenre());
 
                 if (isNotEmpty(musicGroupsPojo, labelsPojo)) {
+
                     List<LabelsPojo> labelsPojos = new ArrayList<>();
                     labelsPojos.add(labelsPojo);
-
-                    System.out.println(labelsPojos);
 
                     List<Labels> labelsList = saveLabelsToDB(labelsPojos);
 
                     for (Labels labels : labelsList) {
+
                         musicGroupsPojo.setLabelId(labels);
                         musicGroupsPojos.add(musicGroupsPojo);
                     }

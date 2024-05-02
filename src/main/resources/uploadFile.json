@@ -1,0 +1,44 @@
+[
+  {
+    "label": "EMI",
+    "group": "Pink Floyd",
+    "genre": "progressive rock",
+    "founded_year": 1965
+  },
+  {
+  "label": "Interscope Records",
+  "group": "U2",
+  "genre": "rock",
+  "founded_year": 1976
+},
+  {
+    "label": "RCA Records",
+    "group": "Elvis Presley",
+    "genre": "rock and roll",
+    "founded_year": 1929
+  },
+  {
+    "label": "Motown",
+    "group": "The Supremes",
+    "genre": "R&B",
+    "founded_year": 1959
+  },
+  {
+    "label": "Sub Pop",
+    "group": "Soundgarden",
+    "genre": "grunge",
+    "founded_year": 1986
+  },
+  {
+    "label": "Verve Records",
+    "genre": "Jazz",
+    "group": "Louis Armstrong",
+    "founded_year": "1956"
+  },
+  {
+    "label": "Merge Records",
+    "genre": "Indie rock",
+    "group": "Neutral Milk Hotel",
+    "founded_year": "1989"
+  }
+]

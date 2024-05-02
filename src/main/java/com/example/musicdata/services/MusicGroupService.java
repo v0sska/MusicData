@@ -2,20 +2,17 @@ package com.example.musicdata.services;
 
 
 import com.example.musicdata.entities.MusicGroups;
+import com.example.musicdata.interfaces.ICsvWriter;
+import com.example.musicdata.interfaces.IJsonParser;
 import com.example.musicdata.interfaces.IMusicGroupsService;
-import com.example.musicdata.parsers.CsvWriter;
-import com.example.musicdata.parsers.JsonParser;
 import com.example.musicdata.pojos.MusicGroupsPojo;
 import com.example.musicdata.repositories.MusicGroupsRepository;
-import com.opencsv.CSVWriter;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,7 +28,9 @@ public class MusicGroupService implements IMusicGroupsService {
 
     private MusicGroupsRepository groupsRepository;
 
-    private JsonParser jsonParser;
+    private IJsonParser jsonParser;
+
+    private ICsvWriter csvWriter;
 
     @Override
     public void addGroup(MusicGroups groups) {
@@ -111,13 +110,8 @@ public class MusicGroupService implements IMusicGroupsService {
         try (ServletOutputStream outputStream = response.getOutputStream();
              OutputStreamWriter writer = new OutputStreamWriter(outputStream)) {
 
-            // Створення CsvWriter
-            CsvWriter csvWriter = new CsvWriter();
-
-            // Отримання даних для звіту
             byte[] csvData = csvWriter.generateReport(groups);
 
-            // Запис даних у вихідний потік
             outputStream.write(csvData);
             outputStream.flush();
 
