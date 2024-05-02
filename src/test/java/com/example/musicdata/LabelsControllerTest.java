@@ -84,4 +84,6 @@ public class LabelsControllerTest {
         verify(labelsService).updateLabelById(id, updatedLabel); // verify that service method was called with correct parameters
     }
 
+
+
 }
