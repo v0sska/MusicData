@@ -1,0 +1,11 @@
+services:
+  postgres:
+    image: 'postgres:alpine3.19'
+    container_name: 'music-data'
+    environment:
+      - 'POSTGRES_DB=music_data'
+      - 'POSTGRES_USER=admin'
+      - 'POSTGRES_PASSWORD=root'
+      - 'POSTGRES_HOST_AUTH_METHOD=trust'
+    ports:
+      - '5432:5432'
