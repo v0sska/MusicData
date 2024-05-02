@@ -77,6 +77,11 @@ public class MusicGroupService implements IMusicGroupsService {
 
     }
 
+    @Override
+    public List<MusicGroups> listAll() {
+        return (List<MusicGroups>) groupsRepository.findAll();
+    }
+
 
     private MusicGroups pojoGroupToEntity(MusicGroupsPojo musicGroupsPojo){
 

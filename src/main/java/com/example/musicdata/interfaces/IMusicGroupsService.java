@@ -19,4 +19,6 @@ public interface IMusicGroupsService {
 
     void uploadGroupsAndLabelsFromFile(MultipartFile fileToUpload);
 
+    List<MusicGroups> listAll();
+
 }
