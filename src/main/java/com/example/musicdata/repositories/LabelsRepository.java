@@ -1,6 +1,7 @@
 package com.example.musicdata.repositories;
 
-import com.example.musicapiinfo.entities.Labels;
+
+import com.example.musicdata.entities.Labels;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

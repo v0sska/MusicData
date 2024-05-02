@@ -1,6 +1,7 @@
 package com.example.musicdata.pojos;
 
-import com.example.musicapiinfo.entities.Labels;
+
+import com.example.musicdata.entities.Labels;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;

@@ -1,6 +1,6 @@
 package com.example.musicdata.repositories;
 
-import com.example.musicapiinfo.entities.MusicGroups;
+import com.example.musicdata.entities.MusicGroups;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
