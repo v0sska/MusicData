@@ -84,6 +84,21 @@ public class LabelsControllerTest {
         verify(labelsService).updateLabelById(id, updatedLabel); // verify that service method was called with correct parameters
     }
 
+    @Test
+    public void deleteGroupTest(){
+
+        Labels labels = new Labels("Capitol Records", 1961);
+
+        doNothing().when(labelsService).deleteLabelById(labels.getId());
+
+        ResponseEntity responseEntity = labelController.deleteLabelById(labels.getId());
+
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals("Label is deleted!", responseEntity.getBody());
+
+        verify(labelsService, times(1)).deleteLabelById(labels.getId());
+    }
+
 
 
 }
